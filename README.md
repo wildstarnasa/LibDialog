@@ -1,0 +1,4 @@
+LibDialog
+=========
+
+Dialog Generation Library

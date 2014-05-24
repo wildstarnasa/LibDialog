@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ]]
 
-local MAJOR,MINOR = "Gemini:LibDialog-1.0", 2
+local MAJOR,MINOR = "Gemini:LibDialog-1.0", 3
 -- Get a reference to the package information if any
 local APkg = Apollo.GetPackage(MAJOR)
 -- If there was an older version loaded we need to see if this is newer
@@ -547,7 +547,7 @@ end
 local function _AddCheckBox(wndParent, nIndex)
 	local tStoredData = wndParent:GetData()
 	local wndCheckBox = Apollo.LoadForm(Lib.xmlDoc, "_CheckBox", wndParent:FindChild("ContentContainer"), Lib)
-	wndCheckBox:SetName(string.format("%sChk%d",wndParent:GetName(),nIndex))
+	wndCheckBox:SetName(("%sChk%d"):format(wndParent:GetName(),nIndex))
 	-- Do additional Checkbox Setup here if any
 
 	wndCheckBox:SetData(tStoredData.tDelegate.checkboxes[nIndex])
@@ -594,7 +594,7 @@ end
 local function _AddEditBox(wndParent, nIndex)
 	local tStoredData = wndParent:GetData()
 	local wndEditGroup = Apollo.LoadForm(Lib.xmlDoc, "_EditGroup", wndParent:FindChild("ContentContainer"), Lib)
-	wndEditGroup:SetName(string.format("%sEdit%d",wndParent:GetName(),nIndex))
+	wndEditGroup:SetName(("%sEdit%d"):format(wndParent:GetName(),nIndex))
 	-- Do additional Editbox Setup here
 
 	local wndLabel = wndEditGroup:FindChild("Label")
@@ -664,7 +664,7 @@ local function _AddButton(wndParent, nIndex)
 	end
 
 	-- Do additional Button Setup here
-	wndButton:SetName(string.format("%sBtn%d",wndParent:GetName(),nIndex))
+	wndButton:SetName(("%sBtn%d"):format(wndParent:GetName(),nIndex))
 	wndButton:SetData(tButtonData)
 	wndButton:SetText(tButtonData.text or "?!?")
 	return wndButton
@@ -680,7 +680,7 @@ local function _SetText(wndDialog, strText)
 	local wndText = wndDialog:FindChild("Text")
 	wndText:SetText(strText or "")
 	local tStoredData = wndDialog:GetData()
-	local tAlignSettings = tAlignOpts[tStoredData.textAlign]
+	local tAlignSettings = tStoredData.textAlign and tAlignOpts[tStoredData.textAlign:lower()] or nil
 	if tAlignSettings then
 		for strSetting, bValue in pairs(tAlignSettings) do
 			wndText:SetTextFlags(strSetting, bValue)
@@ -770,7 +770,7 @@ local function _BuildDialog(tDelegate, tData)
 	end
 
 	local wndDialog = Apollo.LoadForm(Lib.xmlDoc, "_Dialog", nil, Lib)
-	wndDialog:SetName(string.format("Dlg%d", #tActiveDialogs + 1))
+	wndDialog:SetName(("Dlg%d"):format(#tActiveDialogs + 1))
 
 	-- Generate Dialog
 	local nRight, nTop = DEFAULT_DIALOG_WIDTH / 2, 0

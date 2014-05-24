@@ -3,4 +3,4 @@ LibDialog
 
 Dialog Generation Library
 
-For details see the [Wiki](wiki/)
+For details see the Wiki

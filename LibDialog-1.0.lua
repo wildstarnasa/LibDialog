@@ -786,7 +786,9 @@ local function _BuildDialog(tDelegate, tData)
 
 	wndDialog:AddEventHandler("WindowShow", "DialogOnShow", Lib)
 
-	tStoredData:ShowCloseButton(tDelegate.noCloseButton)
+	if tDelegate.noCloseButton then
+		tStoredData:ShowCloseButton(false)
+	end
 
 	if tDelegate.duration then
 		-- method handles setting up the timer

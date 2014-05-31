@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ]]
 
-local MAJOR,MINOR = "Gemini:LibDialog-1.0", 4
+local MAJOR,MINOR = "Gemini:LibDialog-1.0", 5
 -- Get a reference to the package information if any
 local APkg = Apollo.GetPackage(MAJOR)
 -- If there was an older version loaded we need to see if this is newer
@@ -1081,7 +1081,30 @@ function Lib:Resize(wndDialog)
 end
 
 function Lib:OnLoad()
-	Apollo.LoadSprites("LibDialogSprites.xml")
+	local strPrefix = Apollo.GetAssetFolder()
+	local tToc = XmlDoc.CreateFromFile("toc.xml"):ToTable()
+	for k,v in ipairs(tToc) do
+		local strPath = string.match(v.Name, "(.*)[\\/]LibDialog")
+		if strPath ~= nil and strPath ~= "" then
+			strPrefix = strPrefix .. "\\" .. strPath .. "\\"
+			break
+		end
+	end
+	local tSpritesXML = {
+		__XmlNode = "Sprites",
+		{ -- Form
+			__XmlNode="Sprite", Name="IconFrame", Cycle="1",
+			{
+				__XmlNode="Frame", Texture= strPrefix .. "IconFrame.tga",
+				x0="0", x1="0", x2="0", x3="32", x4="56", x5="88",
+				y0="0", y1="0", y2="0", y3="32", y4="56", y5="88",
+				HotspotX="0", HotspotY="0", Duration="1.000",
+				StartColor="white", EndColor="white",
+			},
+		},
+	}
+	local xmlSprites = XmlDoc.CreateFromTable(tSpritesXML)
+	Apollo.LoadSprites(xmlSprites)
 	for k,v in pairs(Item.CodeEnumItemQuality) do
 		ktQualityLookup[v] = "ItemQuality_" .. k
 	end

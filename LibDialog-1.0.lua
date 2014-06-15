@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ]]
 
-local MAJOR,MINOR = "Gemini:LibDialog-1.0", 7
+local MAJOR,MINOR = "Gemini:LibDialog-1.0", 8
 -- Get a reference to the package information if any
 local APkg = Apollo.GetPackage(MAJOR)
 -- If there was an older version loaded we need to see if this is newer
@@ -520,7 +520,7 @@ local function _Dialog_OnNextFrame(self)
 	end
 
 	if tDelegate.OnUpdate then
-		safecall(tDelegate.OnUpdate, tStoredData, wndDialog:GetData(), nElapsed)
+		safecall(tDelegate.OnUpdate, tStoredData, tStoredData.tData, nElapsed)
 	end
 end
 
@@ -529,7 +529,7 @@ local function CheckBox_GetValue(wndCheckBox)
 	local fnGetValue = wndCheckBox:GetData().GetValue
 
 	if fnGetValue then
-		local _, bChecked = safecall(fnGetValue, wndDialog:GetData(), wndDialog.tData)
+		local _, bChecked = safecall(fnGetValue, wndDialog:GetData(), wndDialog:GetData().tData)
 		return bChecked
 	end
 end
@@ -567,7 +567,7 @@ function Lib:OnEditBoxReturn(wndHandler, wndEditBox, strText)
 	local fnOnReturn = wndEditBox:GetData().OnReturn
 
 	if fnOnReturn then
-		safecall(fnOnReturn, wndDialog:GetData(), wndDialog.tData, strText)
+		safecall(fnOnReturn, wndDialog:GetData(), wndDialog:GetData().tData, strText)
 	end
 end
 
@@ -577,7 +577,7 @@ function Lib:OnEditBoxEscape(wndHandler, wndEditBox, strText)
 	local fnOnEscape = wndEditBox:GetData().OnEscape
 
 	if fnOnEscape then
-		safecall(fnOnEscape, wndDialog:GetData(), wndDialog.tData, strText)
+		safecall(fnOnEscape, wndDialog:GetData(), wndDialog:GetData().tData, strText)
 	end
 end
 
@@ -587,7 +587,7 @@ function Lib:OnEditBoxChanged(wndHandler, wndEditBox, strText)
 	local fnOnTextChanged = wndEditBox:GetData().OnTextChanged
 
 	if fnOnTextChanged then
-		safecall(fnOnTextChanged, wndDialog:GetData(), wndDialog.tData, strText)
+		safecall(fnOnTextChanged, wndDialog:GetData(), wndDialog:GetData().tData, strText)
 	end
 end
 
@@ -644,7 +644,7 @@ function Lib:OnButtonSignal(wndHandler, wndButton, eMouseButton)
 	local fnOnClick = wndButton:GetData().OnClick
 
 	if fnOnClick then
-		_, bStayOpen = safecall(fnOnClick, wndDialog:GetData(), wndDialog.tData, "clicked")
+		_, bStayOpen = safecall(fnOnClick, wndDialog:GetData(), wndDialog:GetData().tData, "clicked")
 	end
 
 	if not bStayOpen then

@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ]]
 
-local MAJOR,MINOR = "Gemini:LibDialog-1.0", 6
+local MAJOR,MINOR = "Gemini:LibDialog-1.0", 7
 -- Get a reference to the package information if any
 local APkg = Apollo.GetPackage(MAJOR)
 -- If there was an older version loaded we need to see if this is newer
@@ -1104,7 +1104,7 @@ function Lib:OnLoad()
 		},
 	}
 	local xmlSprites = XmlDoc.CreateFromTable(tSpritesXML)
-	Apollo.LoadSprites(xmlSprites)
+	Apollo.LoadSprites(xmlSprites, "LibDialogSprites")
 	for k,v in pairs(Item.CodeEnumItemQuality) do
 		ktQualityLookup[v] = "ItemQuality_" .. k
 	end

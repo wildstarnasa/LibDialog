@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ]]
 
-local MAJOR,MINOR = "Gemini:LibDialog-1.0", 8
+local MAJOR,MINOR = "Gemini:LibDialog-1.0", 9
 -- Get a reference to the package information if any
 local APkg = Apollo.GetPackage(MAJOR)
 -- If there was an older version loaded we need to see if this is newer
@@ -432,7 +432,7 @@ local function _Resort_Dialogs()
 	local nOldBottom = 0
 
 	for nIndex = 1, #tActiveDialogs do
-		wndDialog = tActiveDialogs[nIndex]
+		local wndDialog = tActiveDialogs[nIndex]
 
 		local nLeft, nTop, nRight, nBottom = wndDialog:GetAnchorOffsets()
 		nBottom = nBottom + nOldBottom - nTop
@@ -642,9 +642,10 @@ function Lib:OnButtonSignal(wndHandler, wndButton, eMouseButton)
 	local wndDialog = wndButton:GetParent():GetParent()
 	local bStayOpen = false
 	local fnOnClick = wndButton:GetData().OnClick
+    local result
 
 	if fnOnClick then
-		_, bStayOpen = safecall(fnOnClick, wndDialog:GetData(), wndDialog:GetData().tData, "clicked")
+        result, bStayOpen = safecall(fnOnClick, wndDialog:GetData(), wndDialog:GetData().tData, "clicked")
 	end
 
 	if not bStayOpen then
